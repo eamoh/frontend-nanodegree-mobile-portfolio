@@ -39,8 +39,10 @@ gulp.task('jshint', function() {
 
 // Optimize Images
 gulp.task('images', function() {
-  return gulp.src(['app/images/**/*','app/views/images/**/*'])
+  return gulp.src('app/images/**/*')
     .pipe(gulp.dest('dist/images'))
+    gulp.src('app/views/images/**/*')
+    .pipe(gulp.dest('dist/views/images'))
     .pipe($.size({title: 'images'}));
 });
 
@@ -79,12 +81,12 @@ gulp.task('fonts', function() {
 
 // Minify CSS
 gulp.task('styles', function() {
-    return gulp.src([
-        'app/css/**/*.css',
-        'app/views/css/**/*.css'
-    ])
+    return gulp.src('app/css/**/*.css')
+    .pipe(gulp.dest('dist/css'))
     .pipe($.csso())
-    .pipe(gulp.dest('dist'))
+    gulp.src('app/views/css/**/*.css')
+    .pipe(gulp.dest('dist/views/css'))
+    .pipe($.csso())
     .pipe($.size({title: 'css'}));
 });
 
@@ -160,8 +162,6 @@ gulp.task('html', function() {
     .pipe($.if('*.css', $.csso()))
     .pipe(assets.restore())
     .pipe($.useref())
-    // Minify Any HTML
-    //.pipe($.if('*.html', $.minifyHtml()))
     .pipe($.if('*.html', $.htmlmin({collapseWhitespace: true})))
     // Output Files
     .pipe(gulp.dest('dist'))
