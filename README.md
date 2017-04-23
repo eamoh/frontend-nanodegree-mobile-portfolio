@@ -2,18 +2,24 @@
 
 Your challenge, if you wish to accept it (and we sure hope you will), is to optimize this online portfolio for speed! In particular, optimize the critical rendering path and make this page render as quickly as possible by applying the techniques you've picked up in the [Critical Rendering Path course](https://www.udacity.com/course/ud884).
 
-####Part 1: Optimize PageSpeed Insights score for index.html
+#### Part 1: Steps Required to Run the Application
+- The _app_ folder contains the source files and the _dist_ folder contains the files served to the website
+- Install and run gulp dependencies in root folder. Install [here](https://github.com/gulpjs/gulp/blob/master/docs/getting-started.md).
+- Install [ngrok](https://ngrok.com/) to provide secure tunnels to localhost and allow you to use PageSpeed Insights. Install ngrok in the _dist_ folder and run it from there.
+- Navigate to the _dist_ folder and run the local Python server from the terminal by typing in the following code: `python -m SimpleHTTPServer`.
+
+#### Part 2: Optimize PageSpeed Insights score for index.html
 Optimizations done to index.html
-- Combine all CSS for landing page into one file (main.css) with media queries for 'print' and 'portrait' and minify.
+- Combine all CSS for landing page into one file (main.css) and move above-the-fold CSS into index.html
 - Remove external link to Google Fonts.
-- Add `async` to google-analytics.js and perfmatters.css javascript external references to allow for asynchronous parsing.
+- Concatenate, minify and add `async` to google-analytics.js and perfmatters.css javascript external references to allow for single call and asynchronous parsing.
 - Moved 'GoogleAnalyticsObject' inline script to end of html file since it isn't essential.
 - Minified images.
-- Add 'print' media query to print.css reference in index.html.
 
-####Part 2: Optimize Frames per Second in pizza.html
-Optimizations to Optimize FPS in pizza.html
+#### Part 3: Optimize Frames per Second in pizza.html
+Steps to Optimize FPS in pizza.html
 - Removed determineDX function in main.js and optimized changePizzaSizes() function.
 - Modified updatePositions() in main.js to reduce jank caused by repeated calls to document.body.scrollTop.
 - Reduce the number of sliding pizza elements generated from 200 to 10.
 - Reduced the sizes of pizza.png and pizzeria.jpg.
+- Minify pizza.html, CS and JS files

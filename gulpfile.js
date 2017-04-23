@@ -26,7 +26,20 @@ var del = require('del');
 var runSequence = require('run-sequence');
 var browserSync = require('browser-sync');
 var pagespeed = require('psi');
+var fs = require('fs');
+var path = require('path');
+var merge = require('merge-stream');
 var reload = browserSync.reload;
+
+var srcPath = 'app/';
+var destPath = 'dist/';
+
+/*function getFolders(dir) {
+    return fs.readdirSync(dir)
+        .filter(function(file) {
+            return fs.statSync(path.join(dir, file)).isDirectory();
+        });
+}*/
 
 // Lint JavaScript
 gulp.task('jshint', function() {
@@ -40,8 +53,10 @@ gulp.task('jshint', function() {
 // Optimize Images
 gulp.task('images', function() {
   return gulp.src('app/images/**/*')
+    .pipe($.imagemin())
     .pipe(gulp.dest('dist/images'))
     gulp.src('app/views/images/**/*')
+    .pipe($.imagemin())
     .pipe(gulp.dest('dist/views/images'))
     .pipe($.size({title: 'images'}));
 });
@@ -49,7 +64,7 @@ gulp.task('images', function() {
 // Copy All Files At The Root Level (app)
 gulp.task('copy', function() {
   return gulp.src([
-    'app/*',
+    'app/**/*',
     '!app/*.html',
     'node_modules/apache-server-configs/dist/.htaccess'
   ], {
@@ -81,13 +96,25 @@ gulp.task('fonts', function() {
 
 // Minify CSS
 gulp.task('styles', function() {
-    return gulp.src('app/css/**/*.css')
-    .pipe(gulp.dest('dist/css'))
-    .pipe($.csso())
-    gulp.src('app/views/css/**/*.css')
-    .pipe(gulp.dest('dist/views/css'))
-    .pipe($.csso())
-    .pipe($.size({title: 'css'}));
+    //return gulp.src('app/css/**/*.css')
+    //.pipe($.csso())
+    //.pipe(gulp.dest('dist/css'))
+    //.pipe($.csso())
+    //gulp.src('app/views/css/**/*.css')
+    //.pipe($.csso())
+    //.pipe(gulp.dest('dist/views/css'))
+    //.pipe($.csso())
+    //.pipe($.size({title: 'css'}));
+
+    var folders = ['css', 'views/css'];
+    var tasks = folders.map(function(element){
+        return gulp.src(srcPath + element + '/**/*.css')
+        // minify css
+        .pipe($.csso())
+        .pipe(gulp.dest(destPath + element));
+    });
+
+    return merge(tasks);
 });
 
 // Compile and Automatically Prefix Stylesheets
