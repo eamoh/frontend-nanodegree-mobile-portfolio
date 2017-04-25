@@ -10,7 +10,7 @@ Your challenge, if you wish to accept it (and we sure hope you will), is to opti
 
 #### Part 2: Optimize PageSpeed Insights score for index.html
 Optimizations done to index.html
-- Combine all CSS for landing page into one file (main.css) and move above-the-fold CSS into index.html
+- Inline all of styles.css and add "print" media query to print.css HTML reference
 - Remove external link to Google Fonts.
 - Concatenate, minify and add `async` to google-analytics.js and perfmatters.css javascript external references to allow for single call and asynchronous parsing.
 - Moved 'GoogleAnalyticsObject' inline script to end of html file since it isn't essential.
@@ -20,6 +20,5 @@ Optimizations done to index.html
 Steps to Optimize FPS in pizza.html
 - Removed determineDX function in main.js and optimized changePizzaSizes() function.
 - Modified updatePositions() in main.js to reduce jank caused by repeated calls to document.body.scrollTop.
-- Reduce the number of sliding pizza elements generated from 200 to 10.
-- Reduced the sizes of pizza.png and pizzeria.jpg.
+- Reduce the number of sliding pizza elements generated from 200 to an automatically calculating the number of scrolling pizzas needed based on the user's screen height.
 - Minify pizza.html, CS and JS files
